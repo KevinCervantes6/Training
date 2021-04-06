@@ -1,23 +1,33 @@
 //Encryption interface
-interface Encryption {
-    data: string;
+interface IEncryption {
     encrypt(data: string): string;
     decrypt(data: string): string;
 }
 
 //Encription class
-class Encrypt implements Encryption {
-    data: string;
-
-    constructor(data: string) {
-        this.data = data;
-    }
-
+class Encrypt implements IEncryption {
+    
     encrypt(data: string): string{
-        return '';
+        return 'xyz${data}';
     }
 
     decrypt(data: string): string{
-        return '';
+        return data.slice(3);
     }
 }
+
+//Class
+class Oracle {
+    _encObj: IEncryption;
+
+    constructor(encObj: IEncryption) {
+        this._encObj = encObj;
+    }
+
+    save( data: string): void {
+        let encryptedData = this._encObj.encrypt(data);
+    }
+}
+
+let dbObj = new Oracle(new Encrypt());
+dbObj.save('Hello');
