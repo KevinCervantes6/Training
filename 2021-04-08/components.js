@@ -2,8 +2,12 @@
 const Navbar = (props) => {
 
     return (
-        <div className="Box">
-            <h1>Navbar with color {props.backgroundColor}</h1>
+        <div>
+             <ul>
+                <li><a href="">{props.homePage}</a></li>
+                <li><a href="">{props.contactPage}</a></li>
+                <li><a href="">{props.aboutPage}</a></li>
+            </ul> 
         </div>
     );
 }
@@ -12,7 +16,7 @@ const Main = (props) => {
 
     return (
         <div className="Box">
-            <h1>Main with color {props.backgroundColor}</h1>
+            <h1>Hi, this example was made with {props.tool}</h1>
         </div>
     );
 }
@@ -20,17 +24,20 @@ const Main = (props) => {
 const Footer = (props) => {
 
     return (
-        <div className="Box">
-            <h1>Footer with color {props.backgroundColor}</h1>
+        <div>
+            <footer>
+                <p>Author: {props.author}</p>
+                <p>Date: {props.date}</p>
+            </footer> 
         </div>
     );
 }
 
 let app = (
     <div>
-        <Navbar backgroundColor="blue" />
-        <Main backgroundColor="green" />
-        <Footer backgroundColor="pink" />
+        <Navbar homePage="Home" contactPage="Contact" aboutPage="About us" />
+        <Main tool="JSX components" />
+        <Footer author="Kevin Cervantes" date="04/08/2021"/>
 
     </div>
 );
