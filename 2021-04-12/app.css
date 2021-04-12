@@ -1,0 +1,53 @@
+/*
+ * This is the style for the list in the navegation bar
+ */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+/*
+ * This is the style for every element in the navegation bar
+*/
+  li {
+    float: left;
+  }
+  
+
+/*
+ * This is the style for the text inside the navegation bar
+*/
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+
+/*
+ * This is the style for the footer
+*/
+  footer {
+    text-align: center;
+    padding: 3px;
+    background-color: #333;
+    color: white;
+  }
+  
+
+/*
+ * This is the style for the main box
+*/
+.Box {
+    align-content: center;
+    width: 300px;
+    border: 7px solid blue;
+    padding: 50px;
+    margin: 50px auto;
+  }
+  
