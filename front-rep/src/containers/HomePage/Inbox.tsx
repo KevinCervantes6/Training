@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { Component } from 'react';
 import MyPaper from '../../UI/Paper';
 import axios from 'axios';
+import MyProgress from '../../UI/Progress';
 
 
 interface IProps {
@@ -18,6 +19,12 @@ class Inbox extends Component {
     state = {loading: true, data: null, error: null};
 
     render () { return <InboxView {...this.state} />}
+
+    componentDidMount() {
+        axios.get('https://jsonplaceholder.typicode.com/posts')
+        .then(response => this.setState({loading: false, data: response.data, error: null}))
+        .catch(error => this.setState({loading: false, data: null, error: error}))
+    }
     
 }
 
@@ -25,7 +32,7 @@ class Inbox extends Component {
 class InboxView extends Component<IProps> {
 
     renderLoading() {
-        const dataJSX = <h3>Loading...</h3>
+        const dataJSX = <MyProgress/>;
         return dataJSX;
     }
 
@@ -35,7 +42,9 @@ class InboxView extends Component<IProps> {
     }
 
     renderSuccess() {
-        const dataJSX = <MyPaper />
+        const dataJSX = this.props.data.map( (item: any ) => {
+            return <MyPaper key={item.id} title={item.title} body={item.body}></MyPaper>
+        } )
         return dataJSX;
     }
 

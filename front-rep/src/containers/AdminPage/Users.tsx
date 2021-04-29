@@ -1,24 +1,65 @@
-import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'; 
+import { Component } from 'react';
+import MyPaper from '../../UI/Paper';
+import axios from 'axios';
+import MyProgress from '../../UI/Progress';
+import MyTable from '../../UI/Table';
 
-import Layout from '../../layouts/Layout';
 
-
+interface IProps {
+    loading: boolean;
+    data: any;
+    error: any;
+}
 
 class Users extends Component {
 
-    render() {
-      return (
-        <Layout list= {['Users', 'Component2']}>
-            <Switch>
-              <Route path='/admin/users' render={ () => <h3>Users Component</h3>}/>
-              <Route path='/admin/comp2' render={ () => <h3>Admin Component Number 2</h3>}/>
-          </Switch>
-        </Layout>
-          
-        
-      );
+    state = {loading: true, data: null, error: null};
+
+    render () { return <UsersView {...this.state} />}
+
+    componentDidMount() {
+        axios.get('https://jsonplaceholder.typicode.com/users')
+        .then(response => {
+          const users: any[] = response.data;
+          const modUsers = users.map( (user: any) => {
+            return {User: user.name, Email: user.email, City: user.address.city, Phone: user.phone, Company: user.company.name};
+          });
+
+          this.setState({loading: false, data: modUsers, error: null})
+        })
+        .catch(error => this.setState({loading: false, data: null, error: error}))
     }
-  }
-  
-  export default Users;
+    
+}
+
+
+class UsersView extends Component<IProps> {
+
+    renderLoading() {
+        const dataJSX = <MyProgress/>;
+        return dataJSX;
+    }
+
+    renderError() {
+        const dataJSX = <h3>Sorry, an error ocurred!</h3>
+        return dataJSX;
+    }
+
+    renderSuccess() {
+        const dataJSX = <MyTable />
+        return dataJSX;
+    }
+
+    render () {
+        if(this.props.loading) {
+            return this.renderLoading();
+        } else if(this.props.data) {
+            return this.renderSuccess();
+        } else {
+            return this.renderError();
+        }
+    }
+    
+}
+
+export default Users;
