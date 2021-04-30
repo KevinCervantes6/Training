@@ -71,7 +71,7 @@ interface IProps {
     rows: any[];
 }
 
-export default function MyTable(props: any) {
+export default function MyTable(props: IProps) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);

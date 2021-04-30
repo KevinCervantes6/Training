@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Layout from '../../layouts/Layout';
+import Users from './Users';
 
 
 
@@ -17,7 +18,7 @@ class AdminPage extends Component {
         <Layout list= {this.list}>
           <Switch>
             <Route path="/admin" exact render={ () => <h3>Admin Component</h3>}/>
-            <Route path="/admin/users" exact render={ () => <h3>Users Component</h3>}/>
+            <Route path="/admin/users" exact render={ () => <Users /> }/>
             <Route path="/admin/comp2" exact render={ () => <h3>Admin Component Number 2</h3>}/>
           </Switch>
         </Layout>

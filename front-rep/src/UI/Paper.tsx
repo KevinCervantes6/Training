@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,12 +23,15 @@ const MyPaper = (props: any) => {
   return (
     <div className={classes.root}>
       <Paper elevation={0}>
-        <Typography variant="subtitle2" gutterBottom>
+        <Typography variant="h5" gutterBottom>
             {props.title}
         </Typography>
         <Typography variant="body1" gutterBottom>
             {props.body}
         </Typography>
+        <Button color="primary" onClick={props.clicked}>
+          Details
+        </Button>
       </Paper>
     </div>
   );

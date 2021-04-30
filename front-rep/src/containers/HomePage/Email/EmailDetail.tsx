@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import MyPaper from '../../UI/Paper';
+import MyPaper from '../../../UI/Paper';
 import axios from 'axios';
-import MyProgress from '../../UI/Progress';
-import MyTable from '../../UI/Table';
+import MyProgress from '../../../UI/Progress';
+import Card from '../../../UI/Card';
 
 
 interface IProps {
@@ -11,29 +11,25 @@ interface IProps {
     error: any;
 }
 
-class Users extends Component {
+class EmailDetail extends Component {
 
     state = {loading: true, data: null, error: null};
 
-    render () { return <UsersView {...this.state} />}
+    render () { return <EmailDetailView {...this.state} />}
 
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/users')
-        .then(response => {
-          const users: any[] = response.data;
-          const modUsers = users.map( (user: any) => {
-            return {User: user.name, Email: user.email, City: user.address.city, Phone: user.phone, Company: user.company.name};
-          });
 
-          this.setState({loading: false, data: modUsers, error: null})
-        })
+        const id = 1;
+
+        axios.get('https://jsonplaceholder.typicode.com/posts')
+        .then(response => this.setState({loading: false, data: response.data, error: null}))
         .catch(error => this.setState({loading: false, data: null, error: error}))
     }
     
 }
 
 
-class UsersView extends Component<IProps> {
+class EmailDetailView extends Component<IProps> {
 
     renderLoading() {
         const dataJSX = <MyProgress/>;
@@ -46,7 +42,7 @@ class UsersView extends Component<IProps> {
     }
 
     renderSuccess() {
-        const dataJSX = <MyTable rows = {this.props.data} />
+        const dataJSX = <Card title={this.props.data.title} body={this.props.data.body}/>
         return dataJSX;
     }
 
@@ -62,4 +58,4 @@ class UsersView extends Component<IProps> {
     
 }
 
-export default Users;
+export default EmailDetail;

@@ -6,19 +6,24 @@ import { Component } from 'react';
 import MyPaper from '../../UI/Paper';
 import axios from 'axios';
 import MyProgress from '../../UI/Progress';
+import { RouteComponentProps } from 'react-router-dom';
 
 
-interface IProps {
+interface IProps extends RouteComponentProps {
+    
+}
+
+interface IState {
     loading: boolean;
-    data: any;
+    data: {}[] | null;
     error: any;
 }
 
-class Inbox extends Component {
+class Inbox extends Component<IProps> {
 
-    state = {loading: true, data: null, error: null};
+    state: IState = {loading: true, data: null, error: null};
 
-    render () { return <InboxView {...this.state} />}
+    render () { return <InboxView {...this.state} {...this.props} />}
 
     componentDidMount() {
         axios.get('https://jsonplaceholder.typicode.com/posts')
@@ -29,7 +34,17 @@ class Inbox extends Component {
 }
 
 
-class InboxView extends Component<IProps> {
+interface IProps2 extends RouteComponentProps {
+    loading: boolean;
+    data: {}[] | null;
+    error: any;
+}
+
+class InboxView extends Component<IProps2> {
+
+    mailSelectedHandler = ( id: string ) => {
+        this.props.history.push( {pathname: '/home/inbox/${id}'} );
+    }
 
     renderLoading() {
         const dataJSX = <MyProgress/>;
@@ -42,8 +57,8 @@ class InboxView extends Component<IProps> {
     }
 
     renderSuccess() {
-        const dataJSX = this.props.data.map( (item: any ) => {
-            return <MyPaper key={item.id} title={item.title} body={item.body}></MyPaper>
+        const dataJSX = this.props.data?.map( (item: any ) => {
+            return <MyPaper key={item.id} title={item.title} body={item.body} clicked={() => this.mailSelectedHandler(item.id)}></MyPaper>
         } )
         return dataJSX;
     }
