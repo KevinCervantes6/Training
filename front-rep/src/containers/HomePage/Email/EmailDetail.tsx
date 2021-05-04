@@ -2,34 +2,52 @@ import { Component } from 'react';
 import MyPaper from '../../../UI/Paper';
 import axios from 'axios';
 import MyProgress from '../../../UI/Progress';
-import Card from '../../../UI/Card';
+import MyCard from '../../../UI/Card';
+import { RouteComponentProps } from 'react-router-dom';
 
+interface MatchParams {
+    id: string;
+  }
 
-interface IProps {
-    loading: boolean;
-    data: any;
-    error: any;
+interface IProps extends RouteComponentProps<MatchParams> {
 }
 
-class EmailDetail extends Component {
+interface IState {
+  loading: boolean;
+  data: {title: string, body: string} | null;
+  error: any;
+}
 
-    state = {loading: true, data: null, error: null};
 
-    render () { return <EmailDetailView {...this.state} />}
+class EmailDetail extends Component<IProps> {
+
+    state: IState = {loading: true, data: null, error: null};
+
+    render () { return <EmailDetailView {...this.state} {...this.props} />}
 
     componentDidMount() {
 
-        const id = 1;
+        const id = this.props.match.params.id;
 
-        axios.get('https://jsonplaceholder.typicode.com/posts')
+        axios.get('https://jsonplaceholder.typicode.com/posts/')
         .then(response => this.setState({loading: false, data: response.data, error: null}))
         .catch(error => this.setState({loading: false, data: null, error: error}))
     }
     
 }
 
+interface IProps2 extends RouteComponentProps {
+    loading: boolean;
+    data: {title: string, body: string} | null;
+    error: any;
+  }
 
-class EmailDetailView extends Component<IProps> {
+
+class EmailDetailView extends Component<IProps2> {
+
+    backButtonSelectedHandler = () => { 
+        this.props.history.goBack();
+      }
 
     renderLoading() {
         const dataJSX = <MyProgress/>;
@@ -42,7 +60,7 @@ class EmailDetailView extends Component<IProps> {
     }
 
     renderSuccess() {
-        const dataJSX = <Card title={this.props.data.title} body={this.props.data.body}/>
+        const dataJSX = <MyCard title={this.props.data?.title} body={this.props.data?.body} clicked = {this.backButtonSelectedHandler}/>
         return dataJSX;
     }
 

@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    //maxWidth: 345,
   },
 });
 
@@ -22,9 +22,9 @@ export default function MyCard( props: any ) {
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt=""
           height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
+          //image="/static/images/cards/contemplative-reptile.jpg"
           title="Contemplative Reptile"
         />
         <CardContent>
@@ -37,10 +37,10 @@ export default function MyCard( props: any ) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        {/* <Button size="small" color="primary">
-          Share
+        <Button size="small" color="primary" onClick={props.clicked}>
+          Go Back
         </Button>
-        <Button size="small" color="primary">
+        {/* <Button size="small" color="primary">
           Learn More
         </Button> */}
       </CardActions>

@@ -42,8 +42,8 @@ interface IProps2 extends RouteComponentProps {
 
 class InboxView extends Component<IProps2> {
 
-    mailSelectedHandler = ( id: string ) => {
-        this.props.history.push( {pathname: '/home/inbox/${id}'} );
+    mailSelectedHandler ( id: string ) {
+        this.props.history.push( {pathname: "/home/inbox/${id}" } );
     }
 
     renderLoading() {
@@ -58,7 +58,7 @@ class InboxView extends Component<IProps2> {
 
     renderSuccess() {
         const dataJSX = this.props.data?.map( (item: any ) => {
-            return <MyPaper key={item.id} title={item.title} body={item.body} clicked={() => this.mailSelectedHandler(item.id)}></MyPaper>
+            return <MyPaper key={item.id} title={item.title} body={item.body} clicked={() => this.mailSelectedHandler(item.id)} />
         } )
         return dataJSX;
     }
