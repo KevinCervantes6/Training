@@ -15,6 +15,10 @@ postsv1Router.get('/', (req, res) => {
     res.json(data.posts);
 });
 
+postsv1Router.get('/:id', (req, res) => {
+    res.json(req.params.id);
+});
+
 postsv1Router.post('/', (req, res) => {
     res.json('Creating from v1');
 });

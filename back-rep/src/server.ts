@@ -7,14 +7,19 @@ import usersRouter from './routes/users';
 const server = express();
 const port = 3000;
 
-server.get('/', (req, res) => {
-    res.send('Greetings');
+//logging middleware
+server.use( (req, res, next) => {
+    console.log('${req.method} ${req.path}');
+    next();
 });
 
 //register routes
-server.use('/v1/posts', postsv1Router);
-server.use('/v2/posts', postsv2Router);
-server.use('/v1/users', usersRouter);
+server.use('/posts', postsv1Router);
+server.use('/users', usersRouter);
+
+server.get('/', (req, res) => {
+    res.send('Greetings');
+});
 
 server.listen(port, () => {
     console.log('Server running at http://localhost:${port}');
