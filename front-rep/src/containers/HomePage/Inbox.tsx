@@ -1,12 +1,9 @@
-import React from 'react';
-import { Theme, withStyles, StyleRules } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+
 import { Component } from 'react';
 import MyPaper from '../../UI/Paper';
-import axios from 'axios';
 import MyProgress from '../../UI/Progress';
 import { RouteComponentProps } from 'react-router-dom';
+import axios from '../../axios'
 
 
 interface IProps extends RouteComponentProps {
@@ -26,7 +23,7 @@ class Inbox extends Component<IProps> {
     render () { return <InboxView {...this.state} {...this.props} />}
 
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/posts')
+        axios.get(`/posts`)
         .then(response => this.setState({loading: false, data: response.data, error: null}))
         .catch(error => this.setState({loading: false, data: null, error: error}))
     }
@@ -43,7 +40,7 @@ interface IProps2 extends RouteComponentProps {
 class InboxView extends Component<IProps2> {
 
     mailSelectedHandler ( id: string ) {
-        this.props.history.push( {pathname: "/home/inbox/${id}" } );
+        this.props.history.push( {pathname: `/home/inbox/${id}` } );
     }
 
     renderLoading() {

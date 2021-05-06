@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 
 let postsv1Router = express.Router();
 
@@ -11,23 +12,24 @@ let data = {
     ]
 };
 
-postsv1Router.get('/', (req, res) => {
+postsv1Router.get(`/`, (req, res) => {
     res.json(data.posts);
 });
 
-postsv1Router.get('/:id', (req, res) => {
-    res.json(req.params.id);
+postsv1Router.get(`/:id`, (req, res) => {
+    let post = data.posts.filter( (item) => item.id.toString() === req.params.id );
+    res.json(post);
 });
 
-postsv1Router.post('/', (req, res) => {
+postsv1Router.post(`/`, (req, res) => {
     res.json('Creating from v1');
 });
 
-postsv1Router.patch('/', (req, res) => {
+postsv1Router.patch(`/`, (req, res) => {
     res.json('Patching from v1');
 });
 
-postsv1Router.delete('/', (req, res) => {
+postsv1Router.delete(`/`, (req, res) => {
     res.json('Deleting from v1');
 });
 

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import MyPaper from '../../../UI/Paper';
-import axios from 'axios';
+import axios from '../../../axios';
 import MyProgress from '../../../UI/Progress';
 import MyCard from '../../../UI/Card';
 import { RouteComponentProps } from 'react-router-dom';
@@ -29,7 +29,7 @@ class EmailDetail extends Component<IProps> {
 
         const id = this.props.match.params.id;
 
-        axios.get('https://jsonplaceholder.typicode.com/posts/')
+        axios.get(`/posts/${id}`)
         .then(response => this.setState({loading: false, data: response.data, error: null}))
         .catch(error => this.setState({loading: false, data: null, error: error}))
     }

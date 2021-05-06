@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import MyPaper from '../../UI/Paper';
-import axios from 'axios';
+import axios from '../../axios';
 import MyProgress from '../../UI/Progress';
 import MyTable from '../../UI/Table';
 
@@ -18,7 +18,7 @@ class Users extends Component {
     render () { return <UsersView {...this.state} />}
 
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/users')
+        axios.get(`/users`)
         .then(response => {
           const users: any[] = response.data;
           const modUsers = users.map( (user: any) => {
