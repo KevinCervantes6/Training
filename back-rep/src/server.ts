@@ -1,5 +1,6 @@
 import express from 'express';
 
+import 'dotenv/config';
 import postsv1Router from './routes/posts1';
 import postsv2Router from './routes/posts2';
 import usersRouter from './routes/users';
