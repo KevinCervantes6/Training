@@ -1,5 +1,6 @@
 import express from 'express';
-import cors from 'cors';
+import { getRepository } from 'typeorm';
+import Posts from '../models/posts.entity';
 
 let postsv1Router = express.Router();
 
@@ -12,13 +13,29 @@ let data = {
     ]
 };
 
-postsv1Router.get(`/`, (req, res) => {
-    res.json(data.posts);
+postsv1Router.post('/', async (req, res) => {
+    let data = req.body;
+
+    const newPost = getRepository(Posts).create(data);
+    let [post, error]: any = await handleAsync(getRepository(Posts).save(newPost));
+
+    if(error) return res.send(error);
+
+    res.send(post);
+});
+
+postsv1Router.get(`/`, async (req, res) => {
+    let [post, error]: any = await handleAsync(getRepository(Posts).find());
+
+    if(error) return res.send(error);
+
+    res.send(post);
+    //res.json(data.posts);
 });
 
 postsv1Router.get(`/:id`, (req, res) => {
     let post = data.posts.filter( (item) => item.id.toString() === req.params.id );
-    res.json(post);
+    res.json(post[0]);
 });
 
 postsv1Router.post(`/`, (req, res) => {
@@ -32,5 +49,11 @@ postsv1Router.patch(`/`, (req, res) => {
 postsv1Router.delete(`/`, (req, res) => {
     res.json('Deleting from v1');
 });
+
+const handleAsync = (promise: Promise<any>) => {
+    return promise
+        .then( (data: any) => {[data, null]} )
+        .catch( (data: any) => {[null, Error]} )
+}
 
 export default postsv1Router;

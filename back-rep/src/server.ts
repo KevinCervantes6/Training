@@ -6,6 +6,7 @@ import { createConnection } from 'typeorm';
 import usersRouter from './routes/users';
 import cors from 'cors';
 import config from './typeormconfig';
+import "reflect-metadata";
 
 const server = express();
 const port = process.env.SERVER_PORT;
