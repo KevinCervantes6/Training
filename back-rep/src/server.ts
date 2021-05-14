@@ -23,6 +23,10 @@ async function connectToDB( ) {
 }
 connectToDB();
 
+//retrieve body/json
+server.use(express.urlencoded());
+server.use(express.json());
+
 //Set cors headers
 server.use(cors());
 

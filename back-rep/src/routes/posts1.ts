@@ -14,10 +14,10 @@ let data = {
 };
 
 postsv1Router.post('/', async (req, res) => {
-    let data = req.body;
+    const data = req.body;
 
     const newPost = getRepository(Posts).create(data);
-    let [post, error]: any = await handleAsync(getRepository(Posts).save(newPost));
+    let [post, error] = await handleAsync(getRepository(Posts).save(newPost));
 
     if(error) return res.send(error);
 
@@ -25,7 +25,7 @@ postsv1Router.post('/', async (req, res) => {
 });
 
 postsv1Router.get(`/`, async (req, res) => {
-    let [post, error]: any = await handleAsync(getRepository(Posts).find());
+    let [post, error] = await handleAsync(getRepository(Posts).find());
 
     if(error) return res.send(error);
 
@@ -52,8 +52,8 @@ postsv1Router.delete(`/`, (req, res) => {
 
 const handleAsync = (promise: Promise<any>) => {
     return promise
-        .then( (data: any) => {[data, null]} )
-        .catch( (data: any) => {[null, Error]} )
+        .then( (data: any) => ([data, null]) )
+        .catch( (error: any) => ([null, error]) )
 }
 
 export default postsv1Router;
