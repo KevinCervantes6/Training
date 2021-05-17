@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { response } from 'express';
 import { getRepository } from 'typeorm';
 import Posts from '../models/posts.entity';
 
@@ -13,6 +13,7 @@ let data = {
     ]
 };
 
+//Create a post
 postsv1Router.post('/', async (req, res) => {
     const data = req.body;
 
@@ -24,6 +25,7 @@ postsv1Router.post('/', async (req, res) => {
     res.send(post);
 });
 
+//Read all posts
 postsv1Router.get(`/`, async (req, res) => {
     let [post, error] = await handleAsync(getRepository(Posts).find());
 
@@ -33,21 +35,50 @@ postsv1Router.get(`/`, async (req, res) => {
     //res.json(data.posts);
 });
 
-postsv1Router.get(`/:id`, (req, res) => {
-    let post = data.posts.filter( (item) => item.id.toString() === req.params.id );
-    res.json(post[0]);
+//Read a single post based on id
+postsv1Router.get(`/:id`, async (req, res) => {
+    const id = req.params.id;
+
+    let [post, error] = await handleAsync(getRepository(Posts).findOne(id));
+    if (error) return res.send(error);
+
+    if (post) {
+        res.send(post);
+    } else {
+        res.send(`No post found for ${id}`);
+    }
 });
 
-postsv1Router.post(`/`, (req, res) => {
-    res.json('Creating from v1');
+//Update a single post based on id
+postsv1Router.patch(`/:id`, async (req, res) => {
+    const id = req.params.id;
+    const data = req.body;
+
+    let [response, error] = await handleAsync(getRepository(Posts).update(id, data));
+    if(error) return res.send(error);
+
+    let [updatedPost, error2] = await handleAsync(getRepository(Posts).findOne(id));
+    if(error2) return res.send(error2);
+
+    if (updatedPost) {
+        res.send(updatedPost);
+    } else {
+        res.send(`No post found for ${id}`);
+    }
 });
 
-postsv1Router.patch(`/`, (req, res) => {
-    res.json('Patching from v1');
-});
+//Delete a single post based on id
+postsv1Router.delete(`/:id`, async (req, res) => {
+    const id = req.params.id;
 
-postsv1Router.delete(`/`, (req, res) => {
-    res.json('Deleting from v1');
+    let [response, error] = await handleAsync(getRepository(Posts).delete(id));
+    if(error) return res.send(error);
+
+    if(response.affected === 1) {
+        response.send( {deleted: true} );
+    } else {
+        res.send(`No post found for ${id}`);
+    }
 });
 
 const handleAsync = (promise: Promise<any>) => {
