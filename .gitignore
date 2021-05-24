@@ -4,3 +4,6 @@ front-rep/.idea
 back-rep/node_modules
 back-rep/public
 back-rep/.idea
+react-node-project/node-express/node_modules
+react-node-project/react-app/node_modules
+react-node-project/react-app/.idea
