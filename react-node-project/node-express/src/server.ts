@@ -1,6 +1,8 @@
 import express from 'express';
 import registerCommonMiddleware from './middleware/commonmiddleware';
 import registerLogginMiddleware from './middleware/logginmiddleware';
+import registerRouteMiddleware from './middleware/route.middleware';
+import registerErrorHandlingMiddleware from './middleware/error.middleware';
 import IRoute from './routes/index.routes';
 
 class Server {
@@ -11,6 +13,7 @@ class Server {
         this.server = express();
         this.registerMiddlewares();
         this.registerRoutes(routes);
+        this.registerErrorHandlingMiddleware();
     }
 
     private registerMiddlewares() {
@@ -19,9 +22,17 @@ class Server {
     }
 
     private registerRoutes(routes: IRoute[]) {
-        routes.forEach( (route: IRoute) => {
-            this.server.use(route.api, route.router);
-        });
+        registerRouteMiddleware(this.server, routes);
+    }
+
+    private registerErrorHandlingMiddleware() {
+        this.server.use(registerErrorHandlingMiddleware);
+    }
+
+    listen() {
+        this.server.listen(process.env.SERVER_PORT, ()=> {
+            console.log(`Server running at http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`);
+        })
     }
 
 }

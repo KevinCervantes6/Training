@@ -3,7 +3,7 @@ import IRoute from './index.routes';
 
 class UsersRoute implements IRoute {
 
-    api = '/users';
+    api = '/api/users';
     router = express.Router();
 }
 

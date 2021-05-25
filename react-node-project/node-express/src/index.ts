@@ -10,3 +10,5 @@ const server = new Server(
         new UsersRoute()
     ]
 );
+
+server.listen();

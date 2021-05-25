@@ -3,7 +3,7 @@ import IRoute from './index.routes';
 
 class PostsRoute implements IRoute {
 
-    api = '/posts';
+    api = '/api/posts';
     router = express.Router();
 }
 
