@@ -1,17 +1,18 @@
 import express, {Request, Response, NextFunction} from 'express';
 
 
-const registerErrorHandlingMiddleware = (error: any, request: Request, response: Response, next: NextFunction) => {
+const registerErrorHandlingMiddleware = (server: express.Application) => {
+    //login middleware
+    server.use( (error: any, request: Request, response: Response, next: NextFunction) => {
+        let status = error.status || 500;
+        let message = error.message || 'Something went wrong';
 
-    let status = error.status || 500;
-    let message = error.message || 'Something went wrong';
-
-    response
-        .status(status)
-        .send(message)
+        response
+            //.status(status)
+            .send({status, message})
+    });
 
 }
-
 
 // const registerErrorHandlingMiddleware = (server: express.Application) => {
 

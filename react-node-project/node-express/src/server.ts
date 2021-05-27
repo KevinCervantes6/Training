@@ -3,7 +3,9 @@ import registerCommonMiddleware from './middleware/commonmiddleware';
 import registerLogginMiddleware from './middleware/logginmiddleware';
 import registerRouteMiddleware from './middleware/route.middleware';
 import registerErrorHandlingMiddleware from './middleware/error.middleware';
-import IRoute from './routes/index.routes';
+import { IRoute } from './routes/index.routes';
+import { createConnection } from 'typeorm';
+import config from './typeormconfig';
 
 class Server {
 
@@ -11,9 +13,21 @@ class Server {
 
     constructor(routes: IRoute[]) {
         this.server = express();
+
+        this.connectToPersistenceLayer();
         this.registerMiddlewares();
         this.registerRoutes(routes);
         this.registerErrorHandlingMiddleware();
+    }
+
+    private async connectToPersistenceLayer() {
+        try {
+            await createConnection(config);
+            console.log('Persistence layer connected');
+        } catch (error) {
+            console.log('Persistence layer connection failed', error);
+            return error;
+        }
     }
 
     private registerMiddlewares() {
