@@ -11,17 +11,25 @@ interface IService {
 
 class Service implements IService {
 
-    create = async(data: any) => {
-        const newItem = getRepository(Posts).create(data);
-        let [item, error] = await handleAsync(getRepository(Posts).save(newItem));
+    entity: any;
 
-        if(error) return new Error(error.message);
+    constructor(entity: any) {
+        this.entity = entity;
+    }
+
+    create = async(data: any) => {
+        const newItem = getRepository(this.entity).create(data);
+        let [item, error] = await handleAsync(getRepository(this.entity).save(newItem));
+
+        if(error) throw error;
+
+        return item;
 
     }
 
     find = async() => {
-        let [item, error] = await handleAsync(getRepository(Posts).find());
-        if(error) return new Error(error.message);
+        let [item, error] = await handleAsync(getRepository(this.entity).find());
+        if(error) throw error;
 
         return item;
     
@@ -29,28 +37,30 @@ class Service implements IService {
 
     findOne = async(id: string) => {
 
-        let [item, error] = await handleAsync(getRepository(Posts).findOne(id));
-        if (error) return new Error(error.message);
+        let [item, error] = await handleAsync(getRepository(this.entity).findOne(id));
+        if (error) throw error;
 
         return item;
     }
 
     update = async(id: string, data: any) => {
 
-        let [response, error] = await handleAsync(getRepository(Posts).update(id, data));
-        if(error) return new Error(error.message);
+        let [response, error] = await handleAsync(getRepository(this.entity).update(id, data));
+        if(error) throw error;
 
-        let [updatedItem, error2] = await handleAsync(getRepository(Posts).findOne(id));
-        if(error2) return new Error(error2.message);
+        let [updatedItem, error2] = await handleAsync(getRepository(this.entity).findOne(id));
+        if(error2) throw error;
 
         return updatedItem;
 
     }
 
     delete = async(id: string) => {
-        let [response, error] = await handleAsync(getRepository(Posts).delete(id));
-        if(error) return new Error(error.message);
+        let [response, error] = await handleAsync(getRepository(this.entity).delete(id));
+        if(error) throw error;
+
+        return response;
     }
 }
 
-export {IService};
+export {IService, Service};
