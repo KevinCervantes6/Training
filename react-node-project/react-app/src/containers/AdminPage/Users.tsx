@@ -18,7 +18,7 @@ class Users extends Component {
     render () { return <UsersView {...this.state} />}
 
     componentDidMount() {
-        axios.get(`/users`)
+        axios.get(`/api/users`)
         .then(response => {
           const users: any[] = response.data;
           const modUsers = users.map( (user: any) => {

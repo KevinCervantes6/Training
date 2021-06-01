@@ -1,7 +1,7 @@
 import express from 'express';
 import registerCommonMiddleware from './middleware/commonmiddleware';
 import registerLogginMiddleware from './middleware/logginmiddleware';
-import registerRouteMiddleware from './middleware/route.middleware';
+import {registerRouteMiddleware, registerUnhandledRoutesMiddleware} from './middleware/route.middleware';
 import registerErrorHandlingMiddleware from './middleware/error.middleware';
 import { IRoute } from './routes/index.routes';
 import { createConnection } from 'typeorm';
@@ -40,6 +40,7 @@ class Server {
     }
 
     private registerErrorHandlingMiddleware() {
+        registerUnhandledRoutesMiddleware(this.server);
         this.server.use(registerErrorHandlingMiddleware);
     }
 

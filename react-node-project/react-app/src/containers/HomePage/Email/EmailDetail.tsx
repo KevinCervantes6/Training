@@ -29,7 +29,7 @@ class EmailDetail extends Component<IProps> {
 
         const id = this.props.match.params.id;
 
-        axios.get(`/posts/${id}`)
+        axios.get(`/api/posts/${id}`)
         .then(response => this.setState({loading: false, data: response.data, error: null}))
         .catch(error => this.setState({loading: false, data: null, error: error}))
     }
